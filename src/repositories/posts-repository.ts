@@ -4,7 +4,7 @@ import {DB, Post} from "../db/db";
 
 
 export const postsRepository = {
-    getPosts() {
+   async getPosts():Promise<Post[]> {
         return DB.posts
     },
 

@@ -12,6 +12,7 @@ import {contentValidationPosts} from "../middlewares/postsMiddlewares/contentVal
 import {blogIdValidationPosts} from "../middlewares/postsMiddlewares/blogIdValidationPosts";
 import {errorValidationBlogs} from "../middlewares/blogsMiddelwares/errorValidationBlogs";
 import {RequestWithParamsWithBody} from "../types/RequestWithParamsWithBody";
+import {Post} from "../db/db";
 
 
 export const postsRoute = Router ({})
@@ -20,8 +21,9 @@ export const postsRoute = Router ({})
 
 const createAndUpdateValidationPosts = ()=>[titleValidationPosts,shortDescriptionValidationPosts,contentValidationPosts,blogIdValidationPosts]
 
-postsRoute.get('/', (req: Request, res: Response) => {
-    const posts = postsRepository.getPosts()
+postsRoute.get('/', async (req: Request, res: Response) => {
+    const posts:Post[] = await postsRepository.getPosts()
+
     res.status(STATUS_CODE.CODE_200).send(posts)
 })
 
