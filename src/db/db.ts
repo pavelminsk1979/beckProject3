@@ -53,12 +53,7 @@ export type Video = {
     availableResolutions: AvailableResolutions[];
 }
 
-export type Blog = {
-    id: string,
-    name: string,
-    description: string,
-    websiteUrl: string
-}
+
 
 export type Post = {
     id: string

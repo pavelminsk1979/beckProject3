@@ -52,7 +52,7 @@ describe('/blogs',()=>{
                 description: 'description',
                 websiteUrl:'https://www.outue.com/'})
             .expect(STATUS_CODE.CODE_201)
-        console.log(res.body)
+
         idNewBlog=res.body.id
 
         expect(res.body.name).toEqual('name')
@@ -62,7 +62,7 @@ describe('/blogs',()=>{
 
     it('Get blog bu incorrect id',async ()=>{
         const res =await req
-            .get('/blogs/12345')
+            .get('/blogs/65d3bad29d85d6c63bd81a86')
         .expect(STATUS_CODE.CODE_404)
 
     })
@@ -80,10 +80,11 @@ describe('/blogs',()=>{
         const res =await req
             .get('/blogs/'+idNewBlog)
              .expect(STATUS_CODE.CODE_200)
-
+        console.log(idNewBlog)
          expect(res.body.name).toEqual('name')
          expect(res.body.description).toEqual('description')
          expect(res.body.websiteUrl).toEqual('https://www.outue.com/')
+        expect(res.body.isMembership).toEqual(false)
 
     })
 
@@ -91,7 +92,7 @@ describe('/blogs',()=>{
     it('- PUT blog by incorrect ID ', async () => {
 
         await req
-            .put('/blogs/1223')
+            .put('/blogs/65d3bad29d85d6c63bd81a86')
             .set('Authorization', `Basic ${loginPasswordBasic64}`)
             .send({ name: 'updateName',
                 description: 'updateDescription',
@@ -154,7 +155,7 @@ describe('/blogs',()=>{
 
     it('- DELETE blog by incorrect ID', async () => {
         await req
-            .delete('/blogs/888')
+            .delete('/blogs/65d3bad29d85d6c63bd81a86')
             .set('Authorization', `Basic ${loginPasswordBasic64}`)
             .expect(STATUS_CODE.CODE_404)
 

@@ -37,7 +37,10 @@ blogsRoute.get('/:id', async (req: RequestWithParams<IdStringGetAndDeleteModel>,
 
 blogsRoute.post('/', authMiddleware, postValidationBlogs(), errorValidationBlogs, async (req: RequestWithBody<CreateAndUpdateBlogModel>, res: Response) => {
     const newBlog = await blogsRepository.createBlog(req.body)
-    res.status(STATUS_CODE.CODE_201).send(newBlog)
+    if(newBlog){    res.status(STATUS_CODE.CODE_201).send(newBlog)
+    } else {
+        res.sendStatus(STATUS_CODE.CODE_404)
+    }
 })
 
 

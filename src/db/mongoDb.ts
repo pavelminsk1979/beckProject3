@@ -1,6 +1,7 @@
 import {MongoClient} from  'mongodb'
-import {Blog, Post} from "./db";
+import { Post} from "./db";
 import dotenv from 'dotenv'
+import {Blog} from "../allTypes/blogTypes";
 
 export const port = 3000
 
@@ -8,7 +9,7 @@ export const port = 3000
 dotenv.config()
 
 
-const mongoUri = process.env.MONGO_URL || "mongodb://0.0.0.0:27017/";
+const mongoUri = process.env.MONGO_URL || '';
 
  const client = new MongoClient(mongoUri)
 
