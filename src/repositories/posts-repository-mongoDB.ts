@@ -1,9 +1,9 @@
 import {CreateAndUpdatePostModel} from "../models/CreateAndUpdatePostModel";
 import {Post} from "../db/db";
-import {client} from "../db/mongoDb";
+import {postsCollection} from "../db/mongoDb";
 
 
-const postsCollection = client.db('projectHW').collection<Post>('posts')
+
 
 export const postsRepository = {
 

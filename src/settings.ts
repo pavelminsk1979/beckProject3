@@ -2,7 +2,7 @@ import express, {Request, Response} from 'express'
 import { videosRoute} from "./routes/videos-route";
 import {blogsRoute} from "./routes/blogs-route";
 import {postsRoute} from "./routes/posts-route";
-import {DB} from "./db/db";
+
 
 export const app = express()
 

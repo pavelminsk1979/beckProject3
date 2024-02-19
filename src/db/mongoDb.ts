@@ -1,9 +1,14 @@
 import {MongoClient} from  'mongodb'
+import {Post} from "./db";
 
 
-const mongoUri = process.env.MONGO_URL || "mongodb://localhost:27017"
+const mongoUri = process.env.MONGO_URL || "mongodb://0.0.0.0:27017/";
 
-export const client = new MongoClient(mongoUri)
+ const client = new MongoClient(mongoUri)
+
+const db=client.db('projectHW')
+
+export const postsCollection=db.collection<Post>('posts')
 
 export async function runDb(){
     try {
