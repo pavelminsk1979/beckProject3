@@ -52,7 +52,7 @@ describe('/blogs',()=>{
                 description: 'description',
                 websiteUrl:'https://www.outue.com/'})
             .expect(STATUS_CODE.CODE_201)
-
+        console.log(res.body)
         idNewBlog=res.body.id
 
         expect(res.body.name).toEqual('name')

@@ -1,7 +1,11 @@
 import {MongoClient} from  'mongodb'
 import {Blog, Post} from "./db";
+import dotenv from 'dotenv'
 
 export const port = 3000
+
+
+dotenv.config()
 
 
 const mongoUri = process.env.MONGO_URL || "mongodb://0.0.0.0:27017/";
