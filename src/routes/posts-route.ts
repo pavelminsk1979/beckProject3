@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import {STATUS_CODE} from "../constant-status-code";
-import {postsRepository} from "../repositories/posts-repository";
+import {postsRepository} from "../repositories/posts-repository-mongoDB";
 import {RequestWithParams} from "../types/RequestWithParams";
 import {IdStringGetAndDeleteModel} from "../models/IdStringGetAndDeleteModel";
 import {RequestWithBody} from "../types/RequestWithBody";
@@ -13,6 +13,7 @@ import {blogIdValidationPosts} from "../middlewares/postsMiddlewares/blogIdValid
 import {errorValidationBlogs} from "../middlewares/blogsMiddelwares/errorValidationBlogs";
 import {RequestWithParamsWithBody} from "../types/RequestWithParamsWithBody";
 import {Post} from "../db/db";
+
 
 
 export const postsRoute = Router ({})
@@ -28,8 +29,8 @@ postsRoute.get('/', async (req: Request, res: Response) => {
 })
 
 
-postsRoute.get('/:id', (req: RequestWithParams<IdStringGetAndDeleteModel>, res: Response) => {
-    const post = postsRepository.findPostById(req.params.id)
+postsRoute.get('/:id', async (req: RequestWithParams<IdStringGetAndDeleteModel>, res: Response) => {
+    const post = await postsRepository.findPostById(req.params.id)
     if(post){
         res.status(STATUS_CODE.CODE_200).send(post)
     } else { res.sendStatus(STATUS_CODE.CODE_404)}
@@ -38,8 +39,8 @@ postsRoute.get('/:id', (req: RequestWithParams<IdStringGetAndDeleteModel>, res: 
 
 postsRoute.post('/',authMiddleware,
     createAndUpdateValidationPosts(),
-    errorValidationBlogs,(req: RequestWithBody<CreateAndUpdatePostModel>, res: Response) => {
-const newPost = postsRepository.createPost(req.body)
+    errorValidationBlogs, async (req: RequestWithBody<CreateAndUpdatePostModel>, res: Response) => {
+const newPost = await postsRepository.createPost(req.body)
     res.status(STATUS_CODE.CODE_201).send(newPost)
 })
 
@@ -47,16 +48,16 @@ const newPost = postsRepository.createPost(req.body)
 
 postsRoute.put('/:id',authMiddleware,
     createAndUpdateValidationPosts(),
-    errorValidationBlogs,(req: RequestWithParamsWithBody<IdStringGetAndDeleteModel, CreateAndUpdatePostModel>, res: Response) => {
-    const isUpdatePost = postsRepository.updatePost(req.params.id,req.body)
+    errorValidationBlogs, async (req: RequestWithParamsWithBody<IdStringGetAndDeleteModel, CreateAndUpdatePostModel>, res: Response) => {
+    const isUpdatePost = await postsRepository.updatePost(req.params.id,req.body)
         if(isUpdatePost){
             res.sendStatus(STATUS_CODE.CODE_204)
         }else {res.sendStatus(STATUS_CODE.CODE_404)}
     })
 
 
-postsRoute.delete('/:id',authMiddleware,(req: RequestWithParams<IdStringGetAndDeleteModel>, res: Response) => {
-    const isPostDelete = postsRepository.deletePostById(req.params.id)
+postsRoute.delete('/:id',authMiddleware, async (req: RequestWithParams<IdStringGetAndDeleteModel>, res: Response) => {
+    const isPostDelete = await postsRepository.deletePostById(req.params.id)
     if(isPostDelete){
         res.sendStatus(STATUS_CODE.CODE_204)
     }else {
