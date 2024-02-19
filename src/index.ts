@@ -1,6 +1,6 @@
 import {app} from "./settings";
-import {runDb} from "./db/mongoDb";
-const port = 3000
+import {port, runDb} from "./db/mongoDb";
+
 
 
 const startApp=async ()=>{
