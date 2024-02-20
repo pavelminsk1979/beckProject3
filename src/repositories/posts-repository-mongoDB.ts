@@ -40,7 +40,13 @@ export const postsRepository = {
         const result = await postsCollection.insertOne(newPost)
 
         if(result.insertedId.toString()){
-            return {...newPost,id:result.insertedId.toString()}
+            return {  title:newPost.title,
+                shortDescription:newPost.shortDescription,
+                content:newPost.content,
+                blogId:newPost.blogId,
+                blogName: newPost.blogName,
+                createdAt:newPost.createdAt,
+                id:result.insertedId.toString()}
         } else {
             return null
         }

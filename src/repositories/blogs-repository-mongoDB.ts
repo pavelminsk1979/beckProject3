@@ -35,7 +35,11 @@ export const blogsRepository = {
 
         const result = await blogsCollection.insertOne(newBlog)
         if (result.insertedId.toString()) {
-            return {...newBlog, id: result.insertedId.toString()}
+            return {  name:newBlog.name,
+                description:newBlog.description,
+                websiteUrl:newBlog.websiteUrl,
+                isMembership:newBlog.isMembership,
+                createdAt: newBlog.createdAt, id: result.insertedId.toString()}
         }else {return null}
     },
 
