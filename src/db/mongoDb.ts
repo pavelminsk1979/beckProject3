@@ -9,7 +9,10 @@ export const port = 3000
 dotenv.config()
 
 
-const mongoUri = process.env.MONGO_URL || '';
+const mongoUri = process.env.MONGO_URL;
+if(!mongoUri){
+    throw new Error('URL not find(file mongoDb.ts:14')
+}
 
  const client = new MongoClient(mongoUri)
 
