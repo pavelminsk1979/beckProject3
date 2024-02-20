@@ -1,38 +1,23 @@
 
 
 import {body} from "express-validator";
-import {DB} from "../../db/db";
+import {blogsRepository} from "../../repositories/blogs-repository-mongoDB";
 
-const findValue=(value:string)=>{
-   let blog= DB.blogs.find(e=>e.id===value)
-    return blog?.id
+const findValue=async (value:string)=>{
+   let blog = await blogsRepository.findBlogById(value)
+    if(blog){return blog.id}
+    return null
 }
 export const blogIdValidationPosts = body('blogId')
     .exists()
     .trim()
-    .custom((value) => value===findValue(value))
+    .custom(async (value) => {
+        const result = await findValue(value)
+        if (result === null) {
+            throw new Error('Incorrect blogId');
+        }
+        return true;
+    })
     .withMessage('Incorrect blogId')
 
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-import {body} from "express-validator";
-import {DB} from "../../db/db";
-
-
-export const blogIdValidationPosts = body('blogId')
-    .exists()
-    .trim()
-    .custom((value) => value===DB.blogs[0].id)
-    .withMessage('Incorrect blogId')*/

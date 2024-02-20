@@ -37,16 +37,14 @@ describe('/posts',()=>{
 
 
 
-
-
     it('- POST does not create the newPost with incorrect data', async ()=> {
         const res =await req
             .post('/posts')
             .set('Authorization', `Basic ${loginPasswordBasic64}`)
             .send({title:'titletitletitletitletitletitletitletitle',
-                shortDescription:'length_101-DnZlTI1khUHpqOqCzftIYiSHCV8fKjYFQOoCIwmUczzW9V5K8cqY3aPKo3XKwbfrmeWOJyQgGnlX5sP3aW3RlaRSQx',
+                shortDescription:'length_101-DnZlTI1khUHpqOqCzftIYiSHCV8fKjYFQOoCIwmUczzW9V5K8cqY3aPKo3XKwbfrmeWOJyQgGnlX5sP3aW3RlaRSQxJyQgGnlX5sP3aW3RlaRSQx',
                 content:'222content',
-                blogId:'177777'})
+                blogId:'65d3bad29d85d6c63bd01a86'})
             .expect(STATUS_CODE.CODE_400)
 
         expect(res.body).toEqual({  errorsMessages: [
@@ -81,9 +79,11 @@ describe('/posts',()=>{
         expect(res.body.content).toEqual('content')
     })
 
+
+
     it('Get post bu incorrect id',async ()=>{
         const res =await req
-            .get('/posts/12345')
+            .get('/posts/65d3bad29d85d6c63bd01a86')
         .expect(STATUS_CODE.CODE_404)
 
     })
@@ -110,7 +110,7 @@ describe('/posts',()=>{
     it('- PUT post by incorrect ID ', async () => {
 
         await req
-            .put('/posts/1223')
+            .put('/posts/65d3bad29d85d6c63bd01a86')
             .set('Authorization', `Basic ${loginPasswordBasic64}`)
             .send({ title: 'updateTitle',
                 shortDescription: 'updateShortDescription',
@@ -159,7 +159,7 @@ describe('/posts',()=>{
             .send({title:'titletitletitletitletitletitletitletitle',
                 shortDescription:'length_101-DnZlTI1khUHpqOqCzftIYiSHCV8fKjYFQOoCIwmUczzW9V5K8cqY3aPKo3XKwbfrmeWOJyQgGnlX5sP3aW3RlaRSQx',
                 content:'222content',
-                blogId:'333blogId'})
+                blogId:'65d3bad29d85d6c63bd01a86'})
             .expect(STATUS_CODE.CODE_400)
         expect(res.body).toEqual({  errorsMessages: [
                 { message: 'Incorrect title', field: 'title' },
@@ -181,7 +181,7 @@ describe('/posts',()=>{
 
     it('- DELETE post by incorrect ID', async () => {
         await req
-            .delete('/posts/888')
+            .delete('/posts/65d3bad29d85d6c63bd01a86')
             .set('Authorization', `Basic ${loginPasswordBasic64}`)
             .expect(STATUS_CODE.CODE_404)
 
@@ -207,7 +207,6 @@ describe('/posts',()=>{
             .get('/posts')
         expect(getRes.body.length).toBe(0)
     })
-
 
 
 })

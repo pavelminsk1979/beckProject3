@@ -1,7 +1,7 @@
 import {MongoClient} from  'mongodb'
-import { Post} from "./db";
 import dotenv from 'dotenv'
 import {Blog} from "../allTypes/blogTypes";
+import {Post} from "../allTypes/postTypes";
 
 export const port = 3000
 

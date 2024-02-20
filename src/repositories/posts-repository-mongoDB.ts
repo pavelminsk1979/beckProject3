@@ -1,6 +1,8 @@
 import {CreateAndUpdatePostModel} from "../models/CreateAndUpdatePostModel";
-import {Post} from "../db/db";
-import {postsCollection} from "../db/mongoDb";
+import {blogsCollection, postsCollection} from "../db/mongoDb";
+import {postMaper} from "../mapers/postMaper";
+import {Post} from "../allTypes/postTypes";
+import {ObjectId} from "mongodb";
 
 
 
@@ -8,12 +10,18 @@ import {postsCollection} from "../db/mongoDb";
 export const postsRepository = {
 
     async getPosts(): Promise<Post[]> {
-        return await postsCollection.find({}).toArray()
+        const posts = await postsCollection.find({}).toArray()
+        return posts.map(postMaper)
     },
 
 
     async findPostById(id: string) {
-        return await postsCollection.findOne({id: id})
+        const post = await postsCollection.findOne({_id: new ObjectId(id)})
+        if (post) {
+            return postMaper(post)
+        } else {
+            return null
+        }
     },
 
 
@@ -21,17 +29,22 @@ export const postsRepository = {
         const {title, shortDescription, content, blogId} = requestBodyPost
 
         const newPost: Post = {
-            id: (new Date()).toISOString(),
             title,
             shortDescription,
             content,
             blogId,
-            blogName: 'anyBlogName'
+            blogName: 'anyBlogName',
+            createdAt: new Date().toISOString()
         }
 
-        await postsCollection.insertOne(newPost)
+        const result = await postsCollection.insertOne(newPost)
 
-        return newPost
+        if(result.insertedId.toString()){
+            return {...newPost,id:result.insertedId.toString()}
+        } else {
+            return null
+        }
+
     },
 
 
@@ -39,7 +52,7 @@ export const postsRepository = {
 
         const {title, blogId, content, shortDescription} = requestBodyPost
 
-        const result = await postsCollection.updateOne({id: id}, {
+        const result = await postsCollection.updateOne({_id: new ObjectId(id)}, {
             $set: {
                 title: title,
                 blogId: blogId,
@@ -48,15 +61,15 @@ export const postsRepository = {
             }
         })
 
-        return result.matchedCount === 1
+        return !!result.matchedCount
     },
 
 
     async deletePostById(id: string) {
 
-        const result = await postsCollection.deleteOne({id: id})
+        const result = await postsCollection.deleteOne({_id: new ObjectId(id)})
 
-        return result.deletedCount === 1
+        return !!result.deletedCount
     }
 
 }

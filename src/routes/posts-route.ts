@@ -12,7 +12,7 @@ import {contentValidationPosts} from "../middlewares/postsMiddlewares/contentVal
 import {blogIdValidationPosts} from "../middlewares/postsMiddlewares/blogIdValidationPosts";
 import {errorValidationBlogs} from "../middlewares/blogsMiddelwares/errorValidationBlogs";
 import {RequestWithParamsWithBody} from "../types/RequestWithParamsWithBody";
-import {Post} from "../db/db";
+import {Post} from "../allTypes/postTypes";
 
 
 
